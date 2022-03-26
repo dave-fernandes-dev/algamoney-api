@@ -1,3 +1,9 @@
+##algamoney, back-end java spring-boot do curso da https://www.algaworks.com/curso/fullstack-angular-e-spring/
+
+#name e email git 
+git config --global user.name "Dave Fernandes Dev"
+git config --global user.email "dave.fernandes.dev@gmail.com"
+
 #inicia repositorio git hub
 git init
 
@@ -15,5 +21,10 @@ git branch -M main
 
 #envia para o github remoto
 git push -u origin main
+
+
+
+
+
 
 
