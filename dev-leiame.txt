@@ -1,0 +1,19 @@
+#inicia repositorio git hub
+git init
+
+#linka p repositorio git, criando antes, com o repositorio local
+git remote add origin git@github.com:dave-fernandes-dev/algamoney-api.git
+
+#adiciona tudo ao git local
+git add .
+
+# commit com a msg "commit 1"
+git commit -m "commit 1"
+
+#muda o branch para main
+git branch -M main
+
+#envia para o github remoto
+git push -u origin main
+
+
