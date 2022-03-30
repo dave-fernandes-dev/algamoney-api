@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -18,10 +20,11 @@ public class Categoria implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	//@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false, length=50)
+	//@Column(nullable=false, length=50) 
+	@NotEmpty()
 	private String nome;
 
 	public Categoria() {
