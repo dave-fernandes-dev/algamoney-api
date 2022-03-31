@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -24,7 +25,7 @@ public class Categoria implements Serializable {
 	private int id;
 
 	//@Column(nullable=false, length=50) 
-	@NotEmpty()
+	@NotEmpty() @Size(min = 3, max = 20)
 	private String nome;
 
 	public Categoria() {
