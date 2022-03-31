@@ -37,7 +37,7 @@ public class CategoriaResource {
 		return categoriaRespository.findAll();
 	}
 
-	@PostMapping
+	@PostMapping    //SEM event publisher
 	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objDTO) {
 		Categoria newObj = categoriaRespository.save(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
