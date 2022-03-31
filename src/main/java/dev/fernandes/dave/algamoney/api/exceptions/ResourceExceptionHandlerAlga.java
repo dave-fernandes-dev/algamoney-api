@@ -27,11 +27,11 @@ public class ResourceExceptionHandlerAlga extends ResponseEntityExceptionHandler
 		return handleExceptionInternal(ex, msgUsuario, headers, HttpStatus.BAD_REQUEST, request);
 	}
 	
-//	@Override
-//	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-//			HttpHeaders headers, HttpStatus status, WebRequest request) {
-//
-//		return handleExceptionInternal(ex, ex, headers, HttpStatus.BAD_REQUEST, request);
-//	}
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		return handleExceptionInternal(ex, ex, headers, HttpStatus.BAD_REQUEST, request);
+	}
 
 }

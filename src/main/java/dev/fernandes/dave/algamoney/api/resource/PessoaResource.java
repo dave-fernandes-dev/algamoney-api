@@ -16,30 +16,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import dev.fernandes.dave.algamoney.api.model.Categoria;
-import dev.fernandes.dave.algamoney.api.repository.CategoriaRepository;
+import dev.fernandes.dave.algamoney.api.model.Pessoa;
+import dev.fernandes.dave.algamoney.api.repository.PessoaRepository;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaResource {
+@RequestMapping("/pessoas")
+public class PessoaResource {
 
 	@Autowired
-	private CategoriaRepository categoriaRespository;
+	private PessoaRepository pessoaRespository;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Optional<Categoria>> findById(@PathVariable Integer id) {
-		Optional<Categoria> obj = categoriaRespository.findById(id);
+	public ResponseEntity<Optional<Pessoa>> findById(@PathVariable Integer id) {
+		Optional<Pessoa> obj = pessoaRespository.findById(id);
 		return obj.isPresent() ? ResponseEntity.ok().body(obj) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
-	public List<Categoria> findAll() {
-		return categoriaRespository.findAll();
+	public List<Pessoa> findAll() {
+		return pessoaRespository.findAll();
 	}
 
 	@PostMapping
-	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objDTO) {
-		Categoria newObj = categoriaRespository.save(objDTO);
+	public ResponseEntity<Pessoa> create(@Valid @RequestBody Pessoa objDTO) {
+		Pessoa newObj = pessoaRespository.save(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).body(newObj);
 	}
