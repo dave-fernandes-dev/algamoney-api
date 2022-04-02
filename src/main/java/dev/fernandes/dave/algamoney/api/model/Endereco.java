@@ -1,6 +1,5 @@
 package dev.fernandes.dave.algamoney.api.model;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
