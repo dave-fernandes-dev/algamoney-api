@@ -23,6 +23,36 @@ public class PessoaService {
 		  BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
 
 		  return this.pessoaRepository.save(pessoaSalva);
-		}
+	}
+	
+	public Pessoa updateStatus(@PathVariable int id, @RequestBody Pessoa pessoa) {
+
+		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+
+		  //muda status
+		  pessoaSalva.setAtivo(!pessoaSalva.isAtivo());
+
+		  return this.pessoaRepository.save(pessoaSalva);
+	}
+	
+	public Pessoa updateAtivar(@PathVariable int id, @RequestBody Pessoa pessoa) {
+
+		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+
+		  //muda status
+		  pessoaSalva.setAtivo(true);
+
+		  return this.pessoaRepository.save(pessoaSalva);
+	}
+	
+	public Pessoa updateDesativar(@PathVariable int id, @RequestBody Pessoa pessoa) {
+
+		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+
+		  //muda status
+		  pessoaSalva.setAtivo(false);
+
+		  return this.pessoaRepository.save(pessoaSalva);
+	}
 
 }

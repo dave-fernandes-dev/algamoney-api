@@ -65,10 +65,28 @@ public class PessoaResource {
 		return ResponseEntity.ok(obj);
 	}
 
-	
 	@DeleteMapping(value = "/{id}") 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Integer id) {
 		pessoaRespository.deleteById(id);	
 	}
+	
+	@PutMapping(value = "/{id}/mudar-status")
+	public ResponseEntity<Pessoa> updateStatus(@PathVariable Integer id, Pessoa pessoa) {
+		Pessoa obj = pessoaService.updateStatus(id, pessoa);
+		return ResponseEntity.ok(obj);
+	}
+	
+	@PutMapping(value = "/{id}/ativar")
+	public ResponseEntity<Pessoa> updateAtivar(@PathVariable Integer id, Pessoa pessoa) {
+		Pessoa obj = pessoaService.updateAtivar(id, pessoa);
+		return ResponseEntity.ok(obj);
+	}
+	
+	@PutMapping(value = "/{id}/desativar")
+	public ResponseEntity<Pessoa> updateDesativar(@PathVariable Integer id, Pessoa pessoa) {
+		Pessoa obj = pessoaService.updateDesativar(id, pessoa);
+		return ResponseEntity.ok(obj);
+	}
+	
 }
