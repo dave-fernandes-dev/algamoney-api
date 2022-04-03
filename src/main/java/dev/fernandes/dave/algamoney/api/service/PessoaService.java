@@ -16,9 +16,13 @@ public class PessoaService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
+	public Pessoa findById(int id) {
+		return 	this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+	}
+	
 	public Pessoa update(@PathVariable int id, @RequestBody Pessoa pessoa) {
 
-		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+		  Pessoa pessoaSalva = findById(id);
 
 		  BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
 
@@ -53,6 +57,13 @@ public class PessoaService {
 		  pessoaSalva.setAtivo(false);
 
 		  return this.pessoaRepository.save(pessoaSalva);
+	}
+	
+	public boolean isInativa(int id) {
+
+		  Pessoa pessoaSalva = findById(id);
+
+		  return !pessoaSalva.isAtivo();
 	}
 
 }

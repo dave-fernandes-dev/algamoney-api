@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
@@ -19,6 +20,9 @@ public class LancamentoService {
 
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
 	public Lancamento findById(Integer id) {
 		Optional<Lancamento> obj = lancamentoRepository.findById(id);
@@ -31,6 +35,10 @@ public class LancamentoService {
 
 	public Lancamento create(Lancamento objDTO) {
 		objDTO.setId(0);
+		
+		if (pessoaService.isInativa(objDTO.getPessoa().getId())) {
+			throw new DataIntegrityViolationException("Não pode Cadastrar Lançamento com pessoa Inativa");
+		}
 		return lancamentoRepository.save(objDTO);
 	}
 
