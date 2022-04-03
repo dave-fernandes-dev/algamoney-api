@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
+import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 
 @Service
 public class LancamentoService {
@@ -31,6 +32,10 @@ public class LancamentoService {
 
 	public List<Lancamento> findAll() {
 		return lancamentoRepository.findAll();
+	}
+	
+	public List<Lancamento> filtrar(LancamentoFilter filter) {
+		return lancamentoRepository.filtrar(filter);
 	}
 
 	public Lancamento create(Lancamento objDTO) {

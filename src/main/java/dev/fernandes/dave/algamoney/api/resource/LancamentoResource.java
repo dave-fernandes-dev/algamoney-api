@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
+import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
 
 @RestController
@@ -34,8 +35,8 @@ public class LancamentoResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Lancamento>> findAll() {
-		List<Lancamento> list = service.findAll();
+	public ResponseEntity<List<Lancamento>> pesquisar(LancamentoFilter filter) {
+		List<Lancamento> list = service.filtrar(filter);
 		return ResponseEntity.ok().body(list);
 	}
 
