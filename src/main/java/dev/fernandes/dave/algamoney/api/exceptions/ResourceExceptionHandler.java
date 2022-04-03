@@ -30,7 +30,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, error, headers, HttpStatus.BAD_REQUEST, request);
 	}
-
+	
 	@ExceptionHandler(ObjectnotFoundException.class)
 	public ResponseEntity<StandardError> objectnotFoundException(ObjectnotFoundException ex,
 			HttpServletRequest request) {
@@ -66,6 +66,16 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
 				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	@ExceptionHandler({ org.springframework.dao.InvalidDataAccessApiUsageException.class} )
+	public ResponseEntity<StandardError> handleInvalidDataAccessApiUsageException(org.springframework.dao.InvalidDataAccessApiUsageException ex,
+			HttpServletRequest request) {
+
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+				"Requisição Mal Formulada!", ex.getRootCause().getMessage(), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import dev.fernandes.dave.algamoney.api.model.enums.TipoLancamento;
 
@@ -40,11 +41,13 @@ public class Lancamento {
 	@Enumerated(EnumType.STRING)
 	private TipoLancamento tipo;
 
+	@NotNull(message = "O campo Categoria é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
 
-	@ManyToOne
+	@NotNull(message = "O campo Pessoa é obrigatório")
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 
