@@ -26,7 +26,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Violação de dados", ex.getMessage(), request.getContextPath());
+				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getContextPath());
 
 		return handleExceptionInternal(ex, error, headers, HttpStatus.BAD_REQUEST, request);
 	}
@@ -36,7 +36,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-				"Object Not Found", ex.getMessage(), request.getRequestURI());
+				"Objeto Não Encontrado!", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
@@ -45,19 +45,34 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<StandardError> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex,HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-				"Object Not Found", ex.getMessage(), request.getRequestURI());
+				"Objeto Não Encontrado!", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex,
+	public ResponseEntity<StandardError> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
 			HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Violação de dados", ex.getMessage(), request.getRequestURI());
+				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	@ExceptionHandler({ org.springframework.dao.DataIntegrityViolationException.class} )
+	public ResponseEntity<StandardError> handleDataIntegrityViolationException(org.springframework.dao.DataIntegrityViolationException ex,
+			HttpServletRequest request) {
+
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	//método muito útil para pegar a causa raiz da exception
+	private String getRootCauseMessage(Exception ex) {
+		return org.apache.commons.lang3.exception.ExceptionUtils.getRootCauseMessage(ex);
 	}
 
 	@Override
@@ -92,7 +107,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<StandardError> accessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(),
-				"Acesso Negado!", ex.getMessage(), request.getRequestURI());
+				"Acesso Negado!", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 	}
