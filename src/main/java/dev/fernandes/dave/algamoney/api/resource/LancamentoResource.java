@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,12 @@ public class LancamentoResource {
 	public ResponseEntity<List<Lancamento>> pesquisar(LancamentoFilter filter) {
 		List<Lancamento> list = service.filtrar(filter);
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping("/paginados")
+	public Page<Lancamento> pesquisarPaginado(LancamentoFilter filter, Pageable pageable) {
+		Page<Lancamento> list = service.filtrarPaginado(filter, pageable);
+		return list;
 	}
 
 	@PostMapping

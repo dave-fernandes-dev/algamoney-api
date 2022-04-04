@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
@@ -37,6 +39,11 @@ public class LancamentoService {
 	public List<Lancamento> filtrar(LancamentoFilter filter) {
 		return lancamentoRepository.filtrar(filter);
 	}
+	
+	public Page<Lancamento> filtrarPaginado(LancamentoFilter filter, Pageable pageable) {
+		return lancamentoRepository.filtrarPaginado(filter, pageable);
+	}
+
 
 	public Lancamento create(Lancamento objDTO) {
 		objDTO.setId(0);
