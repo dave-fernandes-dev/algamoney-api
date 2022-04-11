@@ -54,13 +54,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter jatc = new JwtAccessTokenConverter();
-		jatc.setSigningKey("algaworks");
+		jatc.setSigningKey("3032885ba9cd6621bcc4e7d6b6c35c2b");
 		return jatc;
-	}
-
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.checkTokenAccess("permitAll()");
 	}
 
 	@Bean
