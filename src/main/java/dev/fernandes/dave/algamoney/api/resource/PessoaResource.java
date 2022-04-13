@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,17 +40,20 @@ public class PessoaResource {
 	PessoaService pessoaService;
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
 	public ResponseEntity<Pessoa> findById(@PathVariable Integer id) {
 		Optional<Pessoa> obj = pessoaRespository.findById(id);
 		return obj.isPresent() ? ResponseEntity.ok(obj.get()) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
 	public List<Pessoa> findAll() {
 		return pessoaRespository.findAll();
 	}
 
 	@PostMapping  //COM event publisher
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> create(@Valid @RequestBody Pessoa objDTO, HttpServletResponse response) {
 		Pessoa newObj = pessoaRespository.save(objDTO);
 		
@@ -60,6 +64,7 @@ public class PessoaResource {
 	}
 	
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> update(@PathVariable Integer id, @Valid @RequestBody Pessoa pessoa) {
 		Pessoa obj = pessoaService.update(id, pessoa);
 		return ResponseEntity.ok(obj);
@@ -67,23 +72,27 @@ public class PessoaResource {
 
 	@DeleteMapping(value = "/{id}") 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAnyRole('REMOVER_PESSOA') and #oauth2.hasScope('write') ")
 	public void delete(@PathVariable Integer id) {
 		pessoaRespository.deleteById(id);	
 	}
 	
 	@PutMapping(value = "/{id}/mudar-status")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> updateStatus(@PathVariable Integer id, Pessoa pessoa) {
 		Pessoa obj = pessoaService.updateStatus(id, pessoa);
 		return ResponseEntity.ok(obj);
 	}
 	
 	@PutMapping(value = "/{id}/ativar")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> updateAtivar(@PathVariable Integer id, Pessoa pessoa) {
 		Pessoa obj = pessoaService.updateAtivar(id, pessoa);
 		return ResponseEntity.ok(obj);
 	}
 	
 	@PutMapping(value = "/{id}/desativar")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> updateDesativar(@PathVariable Integer id, Pessoa pessoa) {
 		Pessoa obj = pessoaService.updateDesativar(id, pessoa);
 		return ResponseEntity.ok(obj);
