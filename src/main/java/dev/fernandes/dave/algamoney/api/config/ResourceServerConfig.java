@@ -10,8 +10,10 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,12 +25,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", "/categorias" };
@@ -74,6 +78,12 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsServiceBean() throws Exception {
 	   return super.userDetailsServiceBean();
 	}
+	
+//	@Bean
+//	public MethodSecurityExpressionHandler createExpressionHandler() {
+//		return new OAuth2MethodSecurityExpressionHandler();
+//	}
+	
 
 	private JwtAuthenticationConverter jwtAuthenticationConverter() {
 		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -95,5 +105,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
 		return jwtAuthenticationConverter;
 	}
+	
+	
 
 }

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,21 +27,25 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaRepository categoriaRespository;
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Optional<Categoria>> findById(@PathVariable Integer id) {
-		Optional<Categoria> obj = categoriaRespository.findById(id);
-		return obj.isPresent() ? ResponseEntity.ok().body(obj) : ResponseEntity.notFound().build();
-	}
-
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read') ")
 	public List<Categoria> findAll() {
 		return categoriaRespository.findAll();
 	}
 
 	@PostMapping    //SEM event publisher
+	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA')  and #oauth2.hasScope('read') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_CATEGORIA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objDTO) {
 		Categoria newObj = categoriaRespository.save(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).body(newObj);
+	}
+	
+	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA')")
+	public ResponseEntity<Optional<Categoria>> findById(@PathVariable Integer id) {
+		Optional<Categoria> obj = categoriaRespository.findById(id);
+		return obj.isPresent() ? ResponseEntity.ok().body(obj) : ResponseEntity.notFound().build();
 	}
 }
