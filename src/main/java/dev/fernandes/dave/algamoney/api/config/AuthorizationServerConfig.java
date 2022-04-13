@@ -25,9 +25,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
-    	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
@@ -46,8 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.tokenStore(tokenStore())	
 			.accessTokenConverter(accessTokenConverter())
 			.reuseRefreshTokens(false)
-			.authenticationManager(authenticationManager)
-			.userDetailsService(userDetailsService);
+			.authenticationManager(authenticationManager);
 			
 	}
 
