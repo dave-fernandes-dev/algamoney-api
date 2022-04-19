@@ -28,14 +28,14 @@ public class CategoriaResource {
 	private CategoriaRepository categoriaRespository;
 	
 	@GetMapping
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read') ")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
 	public List<Categoria> findAll() {
 		return categoriaRespository.findAll();
 	}
 
 	@PostMapping    //SEM event publisher
 	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA')  and #oauth2.hasScope('read') ")
-	@PreAuthorize("hasAnyRole('CADASTRAR_CATEGORIA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_CATEGORIA') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Categoria> create(@Valid @RequestBody Categoria objDTO) {
 		Categoria newObj = categoriaRespository.save(objDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
