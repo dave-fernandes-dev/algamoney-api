@@ -43,7 +43,7 @@ public class CategoriaResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read') ")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and hasAuthority('SCOPE_read')")
 	public ResponseEntity<Optional<Categoria>> findById(@PathVariable Integer id) {
 		Optional<Categoria> obj = categoriaRespository.findById(id);
 		return obj.isPresent() ? ResponseEntity.ok().body(obj) : ResponseEntity.notFound().build();

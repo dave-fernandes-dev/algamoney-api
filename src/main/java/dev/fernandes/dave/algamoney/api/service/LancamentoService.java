@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
@@ -42,6 +43,10 @@ public class LancamentoService {
 	
 	public Page<Lancamento> filtrarPaginado(LancamentoFilter filter, Pageable pageable) {
 		return lancamentoRepository.filtrarPaginado(filter, pageable);
+	}
+	
+	public Page<ResumoLancamento> resumirPaginado(LancamentoFilter filter, Pageable pageable) {
+		return lancamentoRepository.resumirPaginado(filter, pageable);
 	}
 
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
@@ -49,6 +50,13 @@ public class LancamentoResource {
 	@PreAuthorize("hasRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public Page<Lancamento> pesquisarPaginado(LancamentoFilter filter, Pageable pageable) {
 		Page<Lancamento> list = service.filtrarPaginado(filter, pageable);
+		return list;
+	}
+	
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public Page<ResumoLancamento> resumirPaginado(LancamentoFilter filter, Pageable pageable) {
+		Page<ResumoLancamento> list = service.resumirPaginado(filter, pageable);
 		return list;
 	}
 
