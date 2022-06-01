@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +37,7 @@ public class PessoaResource {
 	private ApplicationEventPublisher publisher;
 
 	@Autowired
-	private PessoaRepository pessoaRespository;
+	private PessoaRepository pessoaRepository;
 	
 	@Autowired
 	PessoaService pessoaService;
@@ -42,20 +45,26 @@ public class PessoaResource {
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
 	public ResponseEntity<Pessoa> findById(@PathVariable Integer id) {
-		Optional<Pessoa> obj = pessoaRespository.findById(id);
+		Optional<Pessoa> obj = pessoaRepository.findById(id);
 		return obj.isPresent() ? ResponseEntity.ok(obj.get()) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
 	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
 	public List<Pessoa> findAll() {
-		return pessoaRespository.findAll();
+		return pessoaRepository.findAll();
+	}
+	
+	@GetMapping(params = "paginado")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
+	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
+		return pessoaRepository.findByNomeContaining(nome, pageable);
 	}
 
 	@PostMapping  //COM event publisher
 	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
 	public ResponseEntity<Pessoa> create(@Valid @RequestBody Pessoa objDTO, HttpServletResponse response) {
-		Pessoa newObj = pessoaRespository.save(objDTO);
+		Pessoa newObj = pessoaRepository.save(objDTO);
 		
 		//usando listener e event
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, newObj.getId()));
@@ -74,7 +83,7 @@ public class PessoaResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PreAuthorize("hasAnyRole('REMOVER_PESSOA') and #oauth2.hasScope('write') ")
 	public void delete(@PathVariable Integer id) {
-		pessoaRespository.deleteById(id);	
+		pessoaRepository.deleteById(id);	
 	}
 	
 	@PutMapping(value = "/{id}/mudar-status")
