@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -88,8 +89,18 @@ public class PessoaResource {
 	
 	@PutMapping(value = "/{id}/mudar-status")
 	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
-	public ResponseEntity<Pessoa> updateStatus(@PathVariable Integer id, Pessoa pessoa) {
-		Pessoa obj = pessoaService.updateStatus(id, pessoa);
+	public ResponseEntity<Pessoa> changeStatus(@PathVariable Integer id) {
+		Pessoa obj = pessoaService.changeStatus(id);
+		
+		obj.setEndereco(null);
+		
+		return ResponseEntity.ok(obj);
+	}
+	
+	@PutMapping(value = "/{id}/ativo")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	public ResponseEntity<Pessoa> updateStatus(@PathVariable Integer id, @Valid @RequestBody Boolean status) {
+		Pessoa obj = pessoaService.updateStatus(id, status);
 		return ResponseEntity.ok(obj);
 	}
 	

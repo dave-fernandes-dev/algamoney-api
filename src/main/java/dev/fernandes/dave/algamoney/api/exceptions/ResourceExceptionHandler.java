@@ -55,7 +55,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getRequestURI());
+				"Requisição Mal Formulada1!", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
@@ -65,7 +65,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Requisição Mal Formulada!", getRootCauseMessage(ex), request.getRequestURI());
+				"Operação não Permitida! pois Viola Regra de Negócio", getRootCauseMessage(ex), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
@@ -75,7 +75,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpServletRequest request) {
 
 		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-				"Requisição Mal Formulada!", ex.getRootCause().getMessage(), request.getRequestURI());
+				"Requisição Mal Formulada3!", ex.getRootCause().getMessage(), request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}

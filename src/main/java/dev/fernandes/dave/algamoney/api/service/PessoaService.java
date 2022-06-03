@@ -29,12 +29,22 @@ public class PessoaService {
 		  return this.pessoaRepository.save(pessoaSalva);
 	}
 	
-	public Pessoa updateStatus(@PathVariable int id, @RequestBody Pessoa pessoa) {
+	public Pessoa changeStatus(@PathVariable int id) {
 
 		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 
 		  //muda status
 		  pessoaSalva.setAtivo(!pessoaSalva.isAtivo());
+
+		  return this.pessoaRepository.save(pessoaSalva);
+	}
+	
+	public Pessoa updateStatus(@PathVariable int id, @RequestBody boolean status) {
+
+		  Pessoa pessoaSalva = this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+
+		  //muda status com o q veio no body
+		  pessoaSalva.setAtivo(status);
 
 		  return this.pessoaRepository.save(pessoaSalva);
 	}
