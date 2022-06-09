@@ -35,6 +35,8 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		Predicate[] predicates = criarRestricoes(filter, builder, root);
 		criteria.where(predicates);
 		
+		criteria.orderBy(builder.desc(root.get("id")));
+		
 		TypedQuery<Lancamento> query = manager.createQuery(criteria);
 		return query.getResultList();
 	}
@@ -55,6 +57,8 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		//criar as restrições
 		Predicate[] predicates = criarRestricoes(filter, builder, root);
 		criteria.where(predicates);
+
+		criteria.orderBy(builder.desc(root.get("id")));
 		
 		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
 		
@@ -73,6 +77,8 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		//criar as restrições
 		Predicate[] predicates = criarRestricoes(filter, builder, root);
 		criteria.where(predicates);
+		
+		criteria.orderBy(builder.desc(root.get("id")));
 		
 		TypedQuery<Lancamento> query = manager.createQuery(criteria);
 		
