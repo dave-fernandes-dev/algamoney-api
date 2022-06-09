@@ -8,6 +8,6 @@ import dev.fernandes.dave.algamoney.api.model.Pessoa;
 
 public interface PessoaRepository  extends JpaRepository<Pessoa, Integer>{
 	
-    public Page<Pessoa> findByNomeContaining(String nome, Pageable pageable);
+    public Page<Pessoa> findByNomeContainingOrderByIdDesc(String nome, Pageable pageable);
 
 }

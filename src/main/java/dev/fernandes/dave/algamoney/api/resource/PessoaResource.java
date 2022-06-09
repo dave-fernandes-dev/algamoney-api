@@ -59,7 +59,7 @@ public class PessoaResource {
 	@GetMapping(params = "paginado")
 	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
 	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
-		return pessoaRepository.findByNomeContaining(nome, pageable);
+		return pessoaRepository.findByNomeContainingOrderByIdDesc(nome, pageable);
 	}
 
 	@PostMapping  //COM event publisher
