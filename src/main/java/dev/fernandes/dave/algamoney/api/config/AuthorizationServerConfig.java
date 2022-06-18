@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -35,8 +36,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	//@Autowired
 	//private UserDetailsService AppUserDetailsService;
 	
-	//@Autowired
-	//private UserDetailsService userDetailsService;
+	@Autowired	
+	private UserDetailsService userDetailsService;
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -45,7 +46,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret(passwordEncoder.encode("@ngul@r0")) // @ngul@r0
 				.scopes("read", "write")
 				.authorizedGrantTypes("password", "refresh_token")
-				.accessTokenValiditySeconds(60) //60 segundos
+				.accessTokenValiditySeconds(10) //10 segundos
 				.refreshTokenValiditySeconds(3600 * 24);  //24 horas
 
 	}
@@ -57,7 +58,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		
 		endpoints
 		.authenticationManager(authenticationManager)
-		//.userDetailsService(UserDetailsService)
+		.userDetailsService(userDetailsService)
 		.tokenEnhancer(tokenEnhancerChain)
 		.tokenStore(tokenStore())
 		.reuseRefreshTokens(false);
@@ -67,7 +68,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter jatc = new JwtAccessTokenConverter();
-		jatc.setSigningKey("algaworks");
+		jatc.setSigningKey("jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=");
 		return jatc;
 	}
 

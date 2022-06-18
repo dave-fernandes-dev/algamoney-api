@@ -56,8 +56,8 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public JwtDecoder jwtDecoder() {
-		String secretKeyString = "algaworks";
-		var secretKey = new SecretKeySpec(secretKeyString.getBytes(), "HmacSHA256");
+		String secretKeyString = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=";
+		var secretKey = new SecretKeySpec(secretKeyString.getBytes(), "HmacSHA512");
 
 		return NimbusJwtDecoder.withSecretKey(secretKey).build();
 	}

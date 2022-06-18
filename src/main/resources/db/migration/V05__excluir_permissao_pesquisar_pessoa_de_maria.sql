@@ -1,0 +1,1 @@
+DELETE FROM usuario_permissao WHERE `usuario_permissao`.`id_usuario` = 2 AND `usuario_permissao`.`id_permissao` = 5;

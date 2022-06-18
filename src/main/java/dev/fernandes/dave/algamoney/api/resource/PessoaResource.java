@@ -44,26 +44,28 @@ public class PessoaResource {
 	PessoaService pessoaService;
 	
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read') ")
 	public ResponseEntity<Pessoa> findById(@PathVariable Integer id) {
 		Optional<Pessoa> obj = pessoaRepository.findById(id);
 		return obj.isPresent() ? ResponseEntity.ok(obj.get()) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
-	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
 	public List<Pessoa> findAll() {
 		return pessoaRepository.findAll();
 	}
 	
 	@GetMapping(params = "paginado")
-	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
+	//@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and #oauth2.hasScope('read') ")
+	//@PreAuthorize("hasRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
 	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
 		return pessoaRepository.findByNomeContainingOrderByIdDesc(nome, pageable);
 	}
 
 	@PostMapping  //COM event publisher
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Pessoa> create(@Valid @RequestBody Pessoa objDTO, HttpServletResponse response) {
 		Pessoa newObj = pessoaRepository.save(objDTO);
 		
@@ -74,7 +76,7 @@ public class PessoaResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Pessoa> update(@PathVariable Integer id, @Valid @RequestBody Pessoa pessoa) {
 		Pessoa obj = pessoaService.update(id, pessoa);
 		return ResponseEntity.ok(obj);
@@ -82,13 +84,13 @@ public class PessoaResource {
 
 	@DeleteMapping(value = "/{id}") 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PreAuthorize("hasAnyRole('REMOVER_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('REMOVER_PESSOA') and hasAuthority('SCOPE_write')")
 	public void delete(@PathVariable Integer id) {
 		pessoaRepository.deleteById(id);	
 	}
 	
 	@PutMapping(value = "/{id}/mudar-status")
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write') ")
 	public ResponseEntity<Pessoa> changeStatus(@PathVariable Integer id) {
 		Pessoa obj = pessoaService.changeStatus(id);
 		
@@ -98,21 +100,21 @@ public class PessoaResource {
 	}
 	
 	@PutMapping(value = "/{id}/ativo")
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Pessoa> updateStatus(@PathVariable Integer id, @Valid @RequestBody Boolean status) {
 		Pessoa obj = pessoaService.updateStatus(id, status);
 		return ResponseEntity.ok(obj);
 	}
 	
 	@PutMapping(value = "/{id}/ativar")
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Pessoa> updateAtivar(@PathVariable Integer id, Pessoa pessoa) {
 		Pessoa obj = pessoaService.updateAtivar(id, pessoa);
 		return ResponseEntity.ok(obj);
 	}
 	
 	@PutMapping(value = "/{id}/desativar")
-	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and #oauth2.hasScope('write') ")
+	@PreAuthorize("hasAnyRole('CADASTRAR_PESSOA') and hasAuthority('SCOPE_write') ")
 	public ResponseEntity<Pessoa> updateDesativar(@PathVariable Integer id, Pessoa pessoa) {
 		Pessoa obj = pessoaService.updateDesativar(id, pessoa);
 		return ResponseEntity.ok(obj);
