@@ -24,6 +24,14 @@ git push -u origin main
 
 
 
+SEÇÃO 2: DEPLOY NO HEROKU!
+
+2.1) heroku login
+2.2) heroku info  //para ver detalhes
+2.3) heroku config   //para ver todas as variáveis configuradas
+2.4) heroku config:set JDBC_DATABASE_URL=? JDBC_DATABASE_USERNAME    //para ver a url de conexao
+2.5) git push heroku master   //deploy para o git do heroku no branch master
+
 
 
 

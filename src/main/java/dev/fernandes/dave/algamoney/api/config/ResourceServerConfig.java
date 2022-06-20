@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", "/categorias" };
+	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", "/categorias", "/version" };
 	// private static final String[] PUBLIC_MATCHERS = { "/h2-console/**", "/**" };
 	
 	@Autowired
