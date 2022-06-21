@@ -11,7 +11,7 @@ public class AppVersionResource {
 	
 	@GetMapping()
 	public String version() {
-		return "2022-06-21 12:44";
+		return "2022-06-21 13:17";
 	}
 	
 }
