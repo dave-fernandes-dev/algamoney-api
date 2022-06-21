@@ -11,7 +11,7 @@ import lombok.Data;
 public class AlgamoneyApiProperty {
 	
 	private String originPermitida = "http://localhost:4200";
-	
+		
 	private final Seguranca seguranca = new Seguranca();
 	
 	@Data
