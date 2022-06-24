@@ -8,10 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+	
 @Data
 @AllArgsConstructor //tirei p usar construtor definido
-//@NoArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ResumoLancamento {
 	

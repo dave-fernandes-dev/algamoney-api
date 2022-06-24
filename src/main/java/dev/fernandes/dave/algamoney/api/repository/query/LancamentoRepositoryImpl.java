@@ -28,7 +28,6 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 	private EntityManager manager;
 	
 	
-	@Override
 	public List<LancamentoEstatisticaByCategoria> byCategoria(LocalDate mesReferencia) {
 		CriteriaBuilder cb = manager.getCriteriaBuilder();
 		
