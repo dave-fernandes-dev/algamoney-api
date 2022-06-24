@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor //tirei p usar construtor definido
-@NoArgsConstructor
+//@NoArgsConstructor
 @Builder
 public class ResumoLancamento {
 	
