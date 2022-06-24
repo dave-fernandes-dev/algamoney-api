@@ -1,5 +1,6 @@
 package dev.fernandes.dave.algamoney.api.repository.query;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
@@ -24,6 +26,30 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 	
 	@PersistenceContext
 	private EntityManager manager;
+	
+	
+	@Override
+	public List<LancamentoEstatisticaByCategoria> byCategoria(LocalDate mesReferencia) {
+		CriteriaBuilder cb = manager.getCriteriaBuilder();
+		
+		CriteriaQuery<LancamentoEstatisticaByCategoria> cq = cb.createQuery(LancamentoEstatisticaByCategoria.class);
+		
+		Root<Lancamento> root = cq.from(Lancamento.class); 
+
+		cq.select(cb.construct(LancamentoEstatisticaByCategoria.class, root.get("categoria"), cb.sum(root.get("valor"))));
+		
+		LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
+		LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
+		
+		cq.where(cb.greaterThanOrEqualTo(root.get("dataVencimento"), primeiroDia));
+		cq.where(cb.lessThanOrEqualTo(root.get("dataVencimento"), ultimoDia));
+		
+		cq.groupBy(root.get("categoria"));
+		
+		TypedQuery<LancamentoEstatisticaByCategoria> typedQuery = manager.createQuery(cq);
+		
+		return typedQuery.getResultList();
+	}
 	
 	public List<Lancamento> filtrar(LancamentoFilter filter) {
 		
