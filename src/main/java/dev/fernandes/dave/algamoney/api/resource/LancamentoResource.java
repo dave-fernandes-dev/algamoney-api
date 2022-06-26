@@ -1,6 +1,7 @@
 package dev.fernandes.dave.algamoney.api.resource;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
+import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
 
@@ -31,12 +34,28 @@ public class LancamentoResource {
 
 	@Autowired
 	private LancamentoService service;
+	
+	@Autowired
+	private LancamentoRepository lancamentoRepository;
 
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public ResponseEntity<Lancamento> findById(@PathVariable Integer id) {
 		Lancamento obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping("/estatisticas/por-categoria")
+	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public List<LancamentoEstatisticaByCategoria> porCategoria() {
+		return this.lancamentoRepository.byCategoria(LocalDate.parse("2021-07-02"));
+	}
+	
+	@GetMapping("/estatisticas/por-categoria-mes")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public List<LancamentoEstatisticaByCategoria> porCategoriaNoMes(String data) {
+		return this.lancamentoRepository.byCategoria(LocalDate.parse(data));
 	}
 
 	@GetMapping
