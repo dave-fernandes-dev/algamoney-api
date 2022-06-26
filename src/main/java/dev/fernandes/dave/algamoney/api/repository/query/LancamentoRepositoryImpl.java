@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
+import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByDia;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
@@ -26,6 +27,29 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Override
+	public List<LancamentoEstatisticaByDia> byDia(LocalDate mesReferencia) {
+		CriteriaBuilder cb = manager.getCriteriaBuilder();
+
+		CriteriaQuery<LancamentoEstatisticaByDia> cq = cb.createQuery(LancamentoEstatisticaByDia.class);
+
+		Root<Lancamento> root = cq.from(Lancamento.class);
+
+		cq.select(cb.construct(LancamentoEstatisticaByDia.class, root.get("tipo"), root.get("dataVencimento"), cb.sum(root.get("valor"))));
+
+		LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
+		LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
+
+		cq.where(cb.greaterThanOrEqualTo(root.get("dataVencimento"), primeiroDia));
+		cq.where(cb.lessThanOrEqualTo(root.get("dataVencimento"), ultimoDia));
+
+		cq.groupBy(root.get("tipo"),root.get("dataVencimento"));
+
+		TypedQuery<LancamentoEstatisticaByDia> typedQuery = manager.createQuery(cq);
+
+		return typedQuery.getResultList();
+	}
 
 	@Override
 	public List<LancamentoEstatisticaByCategoria> byCategoria(LocalDate mesReferencia) {
