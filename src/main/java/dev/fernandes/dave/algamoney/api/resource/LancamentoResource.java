@@ -25,6 +25,7 @@ import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByDia;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
+import dev.fernandes.dave.algamoney.api.model.enums.MES;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
@@ -63,7 +64,7 @@ public class LancamentoResource {
 	@GetMapping("/estatisticas/por-categoria-mes")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public List<LancamentoEstatisticaByCategoria> porCategoriaNoMes(int mes) {
-		return this.lancamentoRepository.byCategoria(LocalDate.now().withMonth(1));
+		return this.lancamentoRepository.byCategoria(LocalDate.now().withMonth(MES.JANEIRO));
 	}
 	
 	@GetMapping("/estatisticas/por-mes")

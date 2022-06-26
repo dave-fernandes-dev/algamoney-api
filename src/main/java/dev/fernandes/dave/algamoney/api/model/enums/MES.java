@@ -1,12 +1,18 @@
 package dev.fernandes.dave.algamoney.api.model.enums;
 
-public enum MES {
-	JANEIRO(1),FEVEREIRO(2),MARCO(3),ABRIL(4),MAIO(5),JUNHO(6),JULHO(7),AGOSTO(8),SETEMBRO(9),OUTUBRO(10),NOVEMBRO(11),DEZEMBRO(12);
+public final class MES {
 	
-    private final int value;
-
-    MES(int value) {this.value = value;}
-
-    public int getValue() {return this.value;}
-    
+	public static int JANEIRO = 1;
+	public static int FEVEREIRO = 2;
+	public static int MARÇO = 3;
+	public static int ABRIL = 4;
+	public static int MAIO = 5;
+	public static int JUNHO = 6;
+	public static int JULHO = 7;
+	public static int AGOSTO = 8;
+	public static int SETEMBRO = 9;
+	public static int OUTUBRO = 10;
+	public static int NOVEMBRO = 11;
+	public static int DEZEMBRO = 12;
+	
 }
