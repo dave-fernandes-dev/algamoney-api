@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
+import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByDia;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
@@ -52,9 +53,22 @@ public class LancamentoResource {
 		return this.lancamentoRepository.byCategoria(LocalDate.parse("2021-07-02"));
 	}
 	
+	@GetMapping("/estatisticas/por-dia")
+	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public List<LancamentoEstatisticaByDia> porDia() {
+		return this.lancamentoRepository.byDia(LocalDate.parse("2021-07-02"));
+	}
+	
 	@GetMapping("/estatisticas/por-categoria-mes")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
-	public List<LancamentoEstatisticaByCategoria> porCategoriaNoMes(String data) {
+	public List<LancamentoEstatisticaByCategoria> porCategoriaNoMes(int mes) {
+		return this.lancamentoRepository.byCategoria(LocalDate.now().withMonth(1));
+	}
+	
+	@GetMapping("/estatisticas/por-mes")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public List<LancamentoEstatisticaByCategoria> porMes(String data) {
 		return this.lancamentoRepository.byCategoria(LocalDate.parse(data));
 	}
 

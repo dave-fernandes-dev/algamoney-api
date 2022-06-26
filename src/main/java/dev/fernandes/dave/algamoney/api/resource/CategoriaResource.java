@@ -1,7 +1,6 @@
 package dev.fernandes.dave.algamoney.api.resource;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
 import dev.fernandes.dave.algamoney.api.model.Categoria;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
 import dev.fernandes.dave.algamoney.api.repository.CategoriaRepository;
-import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 
 @RestController
 @RequestMapping("/categorias")
