@@ -2,9 +2,14 @@
 <!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lancamentos-por-pessoa" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="58acf290-79bc-4138-8b10-a72f7a0d1323">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="DT_INICIO" class="java.util.Date"/>
+	<parameter name="DT_FIM" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="tipo" class="dev.fernandes.dave.algamoney.api.model.enums.TipoLancamento"/>
+	<field name="pessoa" class="dev.fernandes.dave.algamoney.api.model.Pessoa"/>
 	<title>
 		<band height="60" splitType="Stretch">
 			<staticText>
