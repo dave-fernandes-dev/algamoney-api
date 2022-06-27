@@ -12,13 +12,13 @@
 	<field name="pessoa" class="dev.fernandes.dave.algamoney.api.model.Pessoa"/>
 	<title>
 		<band height="60" splitType="Stretch">
-			<textField>
-				<reportElement x="11" y="15" width="533" height="30" uuid="4c0dc64f-1b05-4145-a713-4d57089e6f8b"/>
+			<staticText>
+				<reportElement x="82" y="15" width="390" height="30" uuid="6be613e2-5235-4e7c-aaec-a3cbfe3328a9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="18"/>
+					<font size="22"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Lançamentos por pessoa de " + DATEFORMAT($P{DT_INICIO}, "dd/MM/yyyy") + " até  " + DATEFORMAT($P{DT_FIM}, "dd/MM/yyyy")]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Lançamentos por pessoa]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>
@@ -69,17 +69,6 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
-			<textField>
-				<reportElement x="1" y="0" width="140" height="25" uuid="51868060-3978-478a-be3c-c7f2b21939fb"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Data " + DATEFORMAT(TODAY(), "dd/MM/yyyy")]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="454" y="0" width="100" height="25" uuid="ab1c2327-7749-4f1c-9322-86b1698276ca"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 </jasperReport>
