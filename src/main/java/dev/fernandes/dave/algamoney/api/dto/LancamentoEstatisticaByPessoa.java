@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data @AllArgsConstructor
-public class LancamentoEstatisticaPessoa {
+public class LancamentoEstatisticaByPessoa {
 	
 	private TipoLancamento tipo;
 	private Pessoa pessoa;
