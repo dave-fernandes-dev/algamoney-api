@@ -1,5 +1,7 @@
 package dev.fernandes.dave.algamoney.api.service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
@@ -49,7 +52,6 @@ public class LancamentoService {
 		return lancamentoRepository.resumirPaginado(filter, pageable);
 	}
 
-
 	public Lancamento create(Lancamento objDTO) {
 		objDTO.setId(0);
 		
@@ -71,6 +73,17 @@ public class LancamentoService {
 		lancamentoRepository.deleteById(obj.getId());
 	}
 	
+	@Scheduled(fixedDelay = 1000 * 5)
+	public void avisarSobreLancamentosVencidos() throws InterruptedException{
+		Thread.sleep(7000); //esperar 7 seg
+		System.out.println(">>>>>>>>>> agendado FixedDelay:" + new Date());
+	}
+	
+	@Scheduled(cron = "40 33 11 * * * ")
+	public void avisarSobreLancamentosVencidos2() throws InterruptedException{
+		System.out.println(">>>>>>>>>> agendado Cron:" + new Date());
+	}
+
 	/*
 	 * public byte[] relatorioPorPessoa(LocalDate inicio, LocalDate fim) throws
 	 * Exception { List<LancamentoEstatisticaByPessoa> dados =
