@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/version")
 public class AppVersionResource {
+
 	
 	@GetMapping()
 	public String version() {
