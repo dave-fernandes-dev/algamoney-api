@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "algamoney.mail.host",
+    "type": "java.lang.String",
+    "description": "A description for 'algamoney.mail.host'"
+  },
+  {
+    "name": "algamoney.mail.password",
+    "type": "java.lang.String",
+    "description": "A description for 'algamoney.mail.password'"
+  },
+  {
+    "name": "algamoney.mail.port",
+    "type": "java.lang.String",
+    "description": "A description for 'algamoney.mail.port'"
+  },
+  {
+    "name": "algamoney.mail.username",
+    "type": "java.lang.String",
+    "description": "A description for 'algamoney.mail.username'"
+  },
+  {
+    "name": "algamoney.origin-permitida",
+    "type": "java.lang.String",
+    "description": "A description for 'algamoney.origin-permitida'"
+  }
+]}
