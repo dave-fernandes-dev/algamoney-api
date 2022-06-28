@@ -1,5 +1,6 @@
 package dev.fernandes.dave.algamoney.api.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,16 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
+import dev.fernandes.dave.algamoney.api.mail.Mailer;
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
+import dev.fernandes.dave.algamoney.api.model.Usuario;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
+import dev.fernandes.dave.algamoney.api.repository.UsuarioRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 
 @Service
 public class LancamentoService {
+	
+	private static final String DESTINATARIOS = "ROLE_PESQUISAR_LANCAMENTO";  
 	
 
 	@Autowired
@@ -28,6 +35,12 @@ public class LancamentoService {
 	
 	@Autowired
 	private PessoaService pessoaService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private Mailer mailer;
 
 	public Lancamento findById(Integer id) {
 		Optional<Lancamento> obj = lancamentoRepository.findById(id);
@@ -71,9 +84,16 @@ public class LancamentoService {
 		lancamentoRepository.deleteById(obj.getId());
 	}
 	
-	//@Scheduled(fixedDelay = 1000 * 5)
+	//@Scheduled(fixedDelay = 1000 * 60 * 30 )
 	public void avisarSobreLancamentosVencidos() throws InterruptedException{
-		Thread.sleep(7000); //esperar 7 seg
+		//Thread.sleep(7000); //esperar 7 seg
+		
+		List<Lancamento> vencidos = lancamentoRepository.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+		
+		List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(DESTINATARIOS);
+		
+		mailer.avisarSobreLancamentosVencidos(vencidos, destinatarios);
+		
 		System.out.println(">>>>>>>>>> agendado FixedDelay:" + new Date());
 	}
 	

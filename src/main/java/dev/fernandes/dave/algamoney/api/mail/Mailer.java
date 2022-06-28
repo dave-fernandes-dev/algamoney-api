@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.MimeMessage;
 
@@ -17,6 +18,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import dev.fernandes.dave.algamoney.api.model.Lancamento;
+import dev.fernandes.dave.algamoney.api.model.Usuario;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 
 @Configuration
@@ -83,5 +85,17 @@ public class Mailer {
 		} catch (Exception e) {
 			throw new RuntimeException("Problema com o envio de email", e);
 		}
+	}
+
+	public void avisarSobreLancamentosVencidos(List<Lancamento> vencidos, List<Usuario> destinatarios) {
+		
+		Map<String, Object> variaveis = new HashMap<>();
+		variaveis.put("lancamentos", vencidos);
+		
+		List<String> emails = destinatarios.stream().map(u -> u.getEmail()).collect(Collectors.toList());
+		
+		String template = "thymeleaf/mail/aviso-lancamentos-vencidos";
+		this.enviarEmail("testes.algaworks@gmail.com", emails , "Lancamentos Vencidos", template, variaveis);		
+		
 	}
 }
