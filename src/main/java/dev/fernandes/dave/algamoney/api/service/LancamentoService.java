@@ -70,5 +70,23 @@ public class LancamentoService {
 		Lancamento obj = findById(id);
 		lancamentoRepository.deleteById(obj.getId());
 	}
+	
+	/*
+	 * public byte[] relatorioPorPessoa(LocalDate inicio, LocalDate fim) throws
+	 * Exception { List<LancamentoEstatisticaByPessoa> dados =
+	 * lancamentoRepository.porPessoa(inicio, fim);
+	 * 
+	 * Map<String, Object> parametros = new HashMap<>(); parametros.put("DT_INICIO",
+	 * Date.valueOf(inicio)); parametros.put("DT_FIM", Date.valueOf(fim));
+	 * parametros.put("REPORT_LOCALE", new Locale("pt", "BR"));
+	 * 
+	 * InputStream inputStream = this.getClass().getResourceAsStream(
+	 * "/relatorios/lancamentos-por-pessoa.jasper");
+	 * 
+	 * JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream,
+	 * parametros, new JRBeanCollectionDataSource(dados));
+	 * 
+	 * return JasperExportManager.exportReportToPdf(jasperPrint); }
+	 */
 
 }
