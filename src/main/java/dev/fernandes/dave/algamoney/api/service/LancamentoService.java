@@ -7,12 +7,13 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
@@ -29,6 +30,7 @@ public class LancamentoService {
 	
 	private static final String DESTINATARIOS = "ROLE_PESQUISAR_LANCAMENTO";  
 	
+	private static final Logger logger = LoggerFactory.getLogger(LancamentoService.class);	
 
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
@@ -88,11 +90,36 @@ public class LancamentoService {
 	public void avisarSobreLancamentosVencidos() throws InterruptedException{
 		//Thread.sleep(7000); //esperar 7 seg
 		
-		List<Lancamento> vencidos = lancamentoRepository.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Preparando envio de "
+					+ "e-mails de aviso de lançamentos vencidos.");
+		}
 		
-		List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(DESTINATARIOS);
+		List<Lancamento> vencidos = lancamentoRepository
+				.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+		
+		if (vencidos.isEmpty()) {
+			logger.info("Sem lançamentos vencidos para aviso.");
+			
+			return;
+		}
+		
+		logger.info("Exitem {} lançamentos vencidos.", vencidos.size());
+		
+		List<Usuario> destinatarios = usuarioRepository
+				.findByPermissoesDescricao(DESTINATARIOS);
+		
+		if (destinatarios.isEmpty()) {
+			logger.warn("Existem lançamentos vencidos, mas o "
+					+ "sistema não encontrou destinatários.");
+			
+			return;
+		}
 		
 		mailer.avisarSobreLancamentosVencidos(vencidos, destinatarios);
+		
+		logger.info("Envio de e-mail de aviso concluído."); 
+	
 		
 		System.out.println(">>>>>>>>>> agendado FixedDelay:" + new Date());
 	}
