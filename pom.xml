@@ -19,6 +19,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>17</java.version>
 		
+		<aws-java-sdk.version>1.11.670</aws-java-sdk.version>
+		
 		<!-- 
 		<jasperreports.version>6.5.1</jasperreports.version>
         <jasperreports-functions.version>6.5.1</jasperreports-functions.version>
@@ -145,6 +147,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		
+        <!-- Amazon S3 -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>${aws-java-sdk.version}</version>
+        </dependency>
+        		
 	</dependencies>
 
 	<build>

@@ -28,13 +28,20 @@ public class AlgamoneyApiProperty {
 	@Data
 	public static class Mail {
 		
-		private String host;
-		
-		private Integer port;
-		
-		private String username;
-		
+		private String host;		
+		private Integer port;		
+		private String username;		
 		private String password;
+	}
+	
+	private final S3 s3 = new S3();
+	
+	@Data
+	public static class S3 {
+		
+		private String accessKeyId;
+		private String secretKey;
+		
 	}
 	
 
