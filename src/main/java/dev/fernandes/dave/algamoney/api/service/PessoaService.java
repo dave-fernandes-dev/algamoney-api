@@ -27,11 +27,13 @@ public class PessoaService {
 	
 	public Pessoa update(@PathVariable int id, @RequestBody Pessoa pessoa) {
 		
-		pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
-
 		Pessoa pessoaSalva = findById(id);
+		
+		pessoaSalva.getContatos().clear();
+		pessoaSalva.getContatos().addAll(pessoa.getContatos());
+		pessoaSalva.getContatos().forEach(c -> c.setPessoa(pessoaSalva));
 
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "id", "contatos");
 
 		return this.pessoaRepository.save(pessoaSalva);
 	}

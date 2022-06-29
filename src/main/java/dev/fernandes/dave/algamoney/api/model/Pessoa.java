@@ -43,7 +43,7 @@ public class Pessoa implements Serializable {
 	Endereco endereco;
 	
 	@Valid @JsonIgnoreProperties("pessoa")
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Contato> contatos;
 
 
