@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import dev.fernandes.dave.algamoney.api.dto.Anexo;
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByDia;
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
@@ -34,6 +35,7 @@ import dev.fernandes.dave.algamoney.api.model.enums.MES;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
+import dev.fernandes.dave.algamoney.api.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -44,6 +46,9 @@ public class LancamentoResource {
 	
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
+	
+	@Autowired
+	private S3 s3;
 
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
@@ -121,8 +126,9 @@ public class LancamentoResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PostMapping("/anexo")
+	//@PostMapping("/anexo-local")
 	@PreAuthorize("hasAnyRole('CADASTRAR_LANCAMENTO')and hasAuthority('SCOPE_write')")
+	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
 	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
 		String folder = "/home/dave/Downloads/temp/anexo--";
 		
@@ -131,6 +137,15 @@ public class LancamentoResource {
 		out.close();
 		
 		return "ok";
+	}
+	
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAnyRole('CADASTRAR_LANCAMENTO')and hasAuthority('SCOPE_write')")
+	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
+	public Anexo uploadAnexoS3(@RequestParam MultipartFile anexo) throws IOException {
+
+		String nome = s3.salvarTemporariamente(anexo);
+		return new Anexo(nome, s3.configurarUrl(nome));
 	}
 	/*
 	 * @GetMapping("/relatorios/por-pessoa")

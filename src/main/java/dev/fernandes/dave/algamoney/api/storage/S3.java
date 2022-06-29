@@ -63,9 +63,13 @@ public class S3 {
 			throw new RuntimeException("Problemas ao tentar enviar o arquivo para o S3.", e);
 		}
 	}
+	
+	public String configurarUrl(String obj) {
+		return "\\\\" + property.getS3().getBucket() + ".s3.amazonaws.com/" + obj;
+	}
 
 	private String gerarNomeUnico(String originalFilename) {
-		return UUID.randomUUID().toString() + "_" + originalFilename;
+		return  UUID.randomUUID().toString() + "_" + originalFilename ;
 	}
 
 }
