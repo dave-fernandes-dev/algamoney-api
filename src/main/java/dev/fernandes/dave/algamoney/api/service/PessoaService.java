@@ -20,13 +20,20 @@ public class PessoaService {
 		return 	this.pessoaRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 	}
 	
+	public Pessoa salvar(Pessoa pessoa) {
+		pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
+		return pessoaRepository.save(pessoa);
+	}
+	
 	public Pessoa update(@PathVariable int id, @RequestBody Pessoa pessoa) {
+		
+		pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
 
-		  Pessoa pessoaSalva = findById(id);
+		Pessoa pessoaSalva = findById(id);
 
-		  BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
 
-		  return this.pessoaRepository.save(pessoaSalva);
+		return this.pessoaRepository.save(pessoaSalva);
 	}
 	
 	public Pessoa changeStatus(@PathVariable int id) {
