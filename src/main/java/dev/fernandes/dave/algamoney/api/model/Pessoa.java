@@ -15,6 +15,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 
@@ -40,7 +43,7 @@ public class Pessoa implements Serializable {
 	@Embedded
 	Endereco endereco;
 	
-	@Valid
+	@Valid @JsonIgnoreProperties("pessoa")
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Contato> contatos;
 
