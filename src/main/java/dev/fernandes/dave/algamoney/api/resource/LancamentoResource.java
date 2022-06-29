@@ -1,5 +1,9 @@
 package dev.fernandes.dave.algamoney.api.resource;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.fernandes.dave.algamoney.api.dto.LancamentoEstatisticaByCategoria;
@@ -116,6 +122,17 @@ public class LancamentoResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAnyRole('CADASTRAR_LANCAMENTO')and hasAuthority('SCOPE_write')")
+	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		String folder = "/home/dave/Downloads/temp/anexo--";
+		
+		OutputStream out = new FileOutputStream(folder + anexo.getOriginalFilename());
+		out.write(anexo.getBytes());
+		out.close();
+		
+		return "ok";
+	}
 	/*
 	 * @GetMapping("/relatorios/por-pessoa")
 	 * 
