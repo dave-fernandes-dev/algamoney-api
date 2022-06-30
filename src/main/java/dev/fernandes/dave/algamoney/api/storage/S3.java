@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GroupGrantee;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.ObjectTagging;
@@ -81,6 +83,21 @@ public class S3 {
 		SetObjectTaggingRequest objectTaggingRequest = new SetObjectTaggingRequest(property.getS3().getBucket(), obj, new ObjectTagging(Collections.emptyList()));
 		
 		amazonS3.setObjectTagging(objectTaggingRequest);
+	}
+
+	public void remover(String obj) {
+		DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(property.getS3().getBucket(), obj);
+		
+		amazonS3.deleteObject(deleteObjectRequest);
+	}
+
+	public void substituir(String antigo, String novo) {
+		if (StringUtils.hasText(antigo) ) {
+			this.remover(antigo);
+		}
+		
+		//na pratica tira expiracao, pq, em tese, foi enviado antes
+		salvar(novo);
 	}
 
 }

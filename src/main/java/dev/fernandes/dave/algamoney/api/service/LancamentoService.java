@@ -84,8 +84,20 @@ public class LancamentoService {
 	}
 
 	public Lancamento update(Integer id, @Valid Lancamento objDTO) {
+			
 		objDTO.setId(id);
 		Lancamento oldObj = findById(id);
+		
+		//se o DTO não tem anexo & o lancamento antigo tem anexo, então é para apagar o antigo
+		if (!StringUtils.hasText(objDTO.getAnexo()) && StringUtils.hasText(oldObj.getAnexo()) )  {
+			s3.remover(oldObj.getAnexo());	
+			
+		//se o anexo enviado é diferente do antigo, então substituir 
+		} else if (StringUtils.hasText(objDTO.getAnexo()) && !objDTO.getAnexo().equals(oldObj.getAnexo()) ) {
+			s3.substituir(oldObj.getAnexo(), objDTO.getAnexo());
+		}
+				
+		// copia atributos de um para outro, ignorando "id"
 		BeanUtils.copyProperties(objDTO, oldObj, "id");
 		return lancamentoRepository.save(oldObj);
 	}
