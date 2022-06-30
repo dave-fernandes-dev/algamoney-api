@@ -18,29 +18,16 @@ public class AppVersionResource {
 	
 	@GetMapping("/version")
 	public String version() {
-		return "2022-06-28 12:54:00";
+		return "2022-06-30 15:58:00";
 	}
 	
 	@GetMapping("/profiles")
     public String getActiveProfiles() {
-		
-		System.out.println(environment.toString());
-		
-		StringBuilder profiles = new StringBuilder();
-		
-		int i = 1;
-        for (String profileName : environment.getActiveProfiles()) {
-            profiles.append("\n ["+ i++ +"] Currently active profile >> " + profileName.toString());
-            System.out.println("Active profiles: " + Arrays.toString(environment.getActiveProfiles()));
-        }
-		return profiles.toString();  
+		return "Active profiles: " + Arrays.toString(environment.getActiveProfiles());  
     }
 	
 	@GetMapping("/env")
-    public String getEnvs() {
-		
-		System.out.println(environment.toString());		
-		
+    public String getEnvs() {		
 		return environment.toString();  
     }
 	
