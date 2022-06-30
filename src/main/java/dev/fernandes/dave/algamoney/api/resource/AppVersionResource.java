@@ -1,6 +1,8 @@
 package dev.fernandes.dave.algamoney.api.resource;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ public class AppVersionResource {
 		int i = 1;
         for (String profileName : environment.getActiveProfiles()) {
             profiles.append("\n ["+ i++ +"] Currently active profile >> " + profileName.toString());
+            System.out.println("Active profiles: " + Arrays.toString(environment.getActiveProfiles()));
         }
 		return profiles.toString();  
     }
