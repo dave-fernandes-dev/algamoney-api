@@ -10,7 +10,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,6 @@ import dev.fernandes.dave.algamoney.api.model.enums.MES;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
-import dev.fernandes.dave.algamoney.api.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
