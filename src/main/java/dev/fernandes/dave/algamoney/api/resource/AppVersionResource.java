@@ -26,9 +26,9 @@ public class AppVersionResource {
 		
 		StringBuilder profiles = new StringBuilder();
 		
+		int i = 1;
         for (String profileName : environment.getActiveProfiles()) {
-        	int i = 1;
-            profiles.append("["+ i++ +"] Currently active profile >> " + profileName.toString());
+            profiles.append(" ["+ i++ +"] Currently active profile >> " + profileName.toString());
         }
 		return profiles.toString();  
     }
