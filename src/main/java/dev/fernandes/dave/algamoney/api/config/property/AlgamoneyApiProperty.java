@@ -42,6 +42,7 @@ public class AlgamoneyApiProperty {
 		private String accessKeyId;
 		private String secretKey;
 		private String bucket = "vl-algamoney-arquivos";
+
 		
 	}
 	

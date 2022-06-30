@@ -3,6 +3,7 @@ package dev.fernandes.dave.algamoney.api.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -19,6 +20,7 @@ import com.amazonaws.services.s3.model.lifecycle.LifecycleTagPredicate;
 import dev.fernandes.dave.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Configuration
+//@Profile("aws-s3")
 public class S3Config {
 	
 	@Autowired
