@@ -35,6 +35,7 @@ import dev.fernandes.dave.algamoney.api.model.enums.MES;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
+import dev.fernandes.dave.algamoney.api.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -46,9 +47,8 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 	
-	//@Autowired
-	//private S3 s3;  
-	//TODO se ativar o s3, então descomente estas 2 linhas acima
+	@Autowired
+	private S3 s3;  
 
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
@@ -144,10 +144,10 @@ public class LancamentoResource {
 	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
 	public Anexo uploadAnexoS3(@RequestParam MultipartFile anexo) throws IOException {
 
-		//String nome = s3.salvarTemporariamente(anexo);
-		//return new Anexo(nome, s3.configurarUrl(nome));
+		String nome = s3.salvarTemporariamente(anexo);
+		return new Anexo(nome, s3.configurarUrl(nome));
 		//TODO se ativar o s3, então descomente estas 2 linhas acima
-		return null;
+		//return null;
 	}
 	/*
 	 * @GetMapping("/relatorios/por-pessoa")

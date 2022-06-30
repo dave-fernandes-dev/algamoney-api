@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import dev.fernandes.dave.algamoney.api.dto.ResumoLancamento;
 import dev.fernandes.dave.algamoney.api.exceptions.ObjectnotFoundException;
@@ -24,6 +25,7 @@ import dev.fernandes.dave.algamoney.api.model.Usuario;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.UsuarioRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
+import dev.fernandes.dave.algamoney.api.storage.S3;
 
 @Service
 public class LancamentoService {
@@ -43,6 +45,9 @@ public class LancamentoService {
 	
 	@Autowired
 	private Mailer mailer;
+	
+	@Autowired
+	private S3 s3;
 
 	public Lancamento findById(Integer id) {
 		Optional<Lancamento> obj = lancamentoRepository.findById(id);
@@ -67,6 +72,10 @@ public class LancamentoService {
 
 	public Lancamento create(Lancamento objDTO) {
 		objDTO.setId(0);
+		
+		if (StringUtils.hasText(objDTO.getAnexo())) {
+			s3.salvar(objDTO.getAnexo());
+		}
 		
 		if (pessoaService.isInativa(objDTO.getPessoa().getId())) {
 			throw new DataIntegrityViolationException("Não pode Cadastrar Lançamento com pessoa Inativa");
