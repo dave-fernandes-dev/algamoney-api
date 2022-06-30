@@ -24,9 +24,11 @@ public class AppVersionResource {
 		
 		System.out.println(environment.toString());
 		
+		String
+		
         for (String profileName : environment.getActiveProfiles()) {
             //System.out.println("Currently active profile - " + profileName);
-            return "["+environment.getActiveProfiles().length +"] Currently active profile >> " + profileName;
+            return "["+environment.getActiveProfiles().length +"] Currently active profile >> " + profileName.toString();
         }
 		return "Fim";  
     }
