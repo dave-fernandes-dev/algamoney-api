@@ -10,6 +10,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ import dev.fernandes.dave.algamoney.api.model.enums.MES;
 import dev.fernandes.dave.algamoney.api.repository.LancamentoRepository;
 import dev.fernandes.dave.algamoney.api.repository.filters.LancamentoFilter;
 import dev.fernandes.dave.algamoney.api.service.LancamentoService;
-//import dev.fernandes.dave.algamoney.api.storage.S3;
+import dev.fernandes.dave.algamoney.api.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -48,7 +49,8 @@ public class LancamentoResource {
 	private LancamentoRepository lancamentoRepository;
 	
 	//@Autowired
-	//private S3 s3;
+	//private S3 s3;  
+	//TODO se ativar o s3, então descomente estas 2 linhas acima
 
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
@@ -126,7 +128,7 @@ public class LancamentoResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	//@PostMapping("/anexo-local")
+	@PostMapping("/anexo-local")
 	@PreAuthorize("hasAnyRole('CADASTRAR_LANCAMENTO')and hasAuthority('SCOPE_write')")
 	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
 	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
@@ -146,6 +148,7 @@ public class LancamentoResource {
 
 		//String nome = s3.salvarTemporariamente(anexo);
 		//return new Anexo(nome, s3.configurarUrl(nome));
+		//TODO se ativar o s3, então descomente estas 2 linhas acima
 		return null;
 	}
 	/*

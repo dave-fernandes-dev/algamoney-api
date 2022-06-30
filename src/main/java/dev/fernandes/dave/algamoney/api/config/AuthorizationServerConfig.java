@@ -79,7 +79,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 	
 	private TokenEnhancer tokenEnhancer() {
-		// TODO Auto-generated method stub
+
 		return new CustomTokenEnhancer();
 	}
 
