@@ -61,14 +61,14 @@ public class LancamentoResource {
 	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public List<LancamentoEstatisticaByCategoria> porCategoria() {
-		return this.lancamentoRepository.byCategoria(LocalDate.parse("2021-07-02"));
+		return this.lancamentoRepository.byCategoria(LocalDate.parse("2021-06-02"));
 	}
 	
 	@GetMapping("/estatisticas/por-dia")
 	//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	@PreAuthorize("hasAnyRole('PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public List<LancamentoEstatisticaByDia> porDia() {
-		return this.lancamentoRepository.byDia(LocalDate.parse("2021-07-02"));
+		return this.lancamentoRepository.byDia(LocalDate.parse("2021-06-02"));
 	}
 	
 	@GetMapping("/estatisticas/por-categoria-mes")

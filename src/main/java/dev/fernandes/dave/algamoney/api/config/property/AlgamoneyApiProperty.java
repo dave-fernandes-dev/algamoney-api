@@ -11,7 +11,8 @@ import lombok.Data;
 @Component @Primary
 public class AlgamoneyApiProperty {
 	
-	private String originPermitida = "http://localhost:4200";
+	//private String originPermitida = "http://localhost:4200";
+	private String originPermitida;
 		
 	private final Seguranca seguranca = new Seguranca();
 	

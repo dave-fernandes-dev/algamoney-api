@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -20,10 +21,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import dev.fernandes.dave.algamoney.api.model.enums.TipoLancamento;
+import dev.fernandes.dave.algamoney.api.repository.listener.LancamentoAnexoListener;
 import lombok.Data;
 
-@Entity
-@Table(name = "lancamento") @Data
+@Entity @EntityListeners(LancamentoAnexoListener.class)
+@Table(name = "lancamento") @Data  
 public class Lancamento {
 
 	@Id
