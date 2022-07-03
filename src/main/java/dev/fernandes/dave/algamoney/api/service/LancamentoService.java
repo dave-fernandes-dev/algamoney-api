@@ -80,6 +80,9 @@ public class LancamentoService {
 		if (pessoaService.isInativa(objDTO.getPessoa().getId())) {
 			throw new DataIntegrityViolationException("Não pode Cadastrar Lançamento com pessoa Inativa");
 		}
+		
+		objDTO.setUrlAnexo(s3.configurarUrl(objDTO.getAnexo()));
+		
 		return lancamentoRepository.save(objDTO);
 	}
 
@@ -98,7 +101,10 @@ public class LancamentoService {
 		}
 				
 		// copia atributos de um para outro, ignorando "id"
-		BeanUtils.copyProperties(objDTO, oldObj, "id");
+		BeanUtils.copyProperties(objDTO, oldObj, "id");		
+		
+		oldObj.setUrlAnexo(s3.configurarUrl(oldObj.getAnexo()));
+		
 		return lancamentoRepository.save(oldObj);
 	}
 
