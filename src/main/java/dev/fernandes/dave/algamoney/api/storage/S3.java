@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ import dev.fernandes.dave.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Component
 //@Profile(value="prod & !prod & dev") // apenas exemplo de opcoes
-//@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
+@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
 public class S3 {
 	
 	private static final Logger logger = LoggerFactory.getLogger(S3.class);

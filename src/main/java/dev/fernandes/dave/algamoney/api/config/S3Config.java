@@ -3,6 +3,7 @@ package dev.fernandes.dave.algamoney.api.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -20,7 +21,7 @@ import dev.fernandes.dave.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Configuration
 //@Profile(value="prod & dev") //desta forma estranha ele fica desativado
-//@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
+@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
 public class S3Config {
 	
 	@Autowired

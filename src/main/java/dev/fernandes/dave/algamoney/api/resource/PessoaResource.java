@@ -2,6 +2,7 @@ package dev.fernandes.dave.algamoney.api.resource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.fernandes.dave.algamoney.api.dto.PessoaResumo;
 import dev.fernandes.dave.algamoney.api.events.RecursoCriadoEvent;
 import dev.fernandes.dave.algamoney.api.model.Pessoa;
 import dev.fernandes.dave.algamoney.api.repository.PessoaRepository;
@@ -54,6 +56,15 @@ public class PessoaResource {
 	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
 	public List<Pessoa> findAll() {
 		return pessoaRepository.findAll();
+	}
+	
+	
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
+	public ResponseEntity<List<PessoaResumo>> findAllResumo() {
+		List<Pessoa> list = pessoaRepository.findAll();
+		List<PessoaResumo> listDTO = list.stream().map(obj -> new PessoaResumo(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@GetMapping(params = "paginado")
