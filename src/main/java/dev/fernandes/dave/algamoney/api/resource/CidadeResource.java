@@ -2,7 +2,6 @@ package dev.fernandes.dave.algamoney.api.resource;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,16 +28,16 @@ public class CidadeResource {
 	@Autowired
 	private CidadeRepository cidadeRespository;
 
-	@GetMapping
+	@GetMapping("/all")
 	@PreAuthorize("isAuthenticated()")
 	public List<Cidade> findAll() {
 		return cidadeRespository.findAll();
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping()
 	@PreAuthorize("isAuthenticated()")
-	public List<Cidade> findByEstadoId(@PathVariable Integer idEstado) {
-		return cidadeRespository.findByEstadoId(idEstado);
+	public List<Cidade> findByEstadoId(@RequestParam int estado) {
+		return cidadeRespository.findByEstadoId(estado);
 	}
 
 	@PostMapping 
