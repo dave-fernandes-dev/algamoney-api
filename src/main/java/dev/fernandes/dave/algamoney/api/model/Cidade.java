@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ public class Cidade implements Serializable {
 
 	private String nome;
 
+	//@JsonIgnoreProperties("cidade") //irá ignorar {} da tabela estado
 	//bi-directional many-to-one association to Estado
 	@ManyToOne @JoinColumn(name="id_estado")
 	private Estado estado;
