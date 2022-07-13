@@ -28,7 +28,7 @@ import dev.fernandes.dave.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Component
 //@Profile(value="prod & !prod & dev") // apenas exemplo de opcoes
-@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
+//@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
 public class S3 {
 	
 	private static final Logger logger = LoggerFactory.getLogger(S3.class);

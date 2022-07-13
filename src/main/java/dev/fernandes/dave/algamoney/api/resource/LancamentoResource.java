@@ -47,9 +47,9 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 	
-	//@Autowired
-	//private S3 s3;  
-	// TODO se ativar o s3, então descomente estas 2 linhas acima
+	@Autowired
+	private S3 s3;  
+	// TODO para ativar o s3, descomente estas 2 linhas acima
 	
 
 	@GetMapping(value = "/{id}")
@@ -146,10 +146,10 @@ public class LancamentoResource {
 	//@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
 	public Anexo uploadAnexoS3(@RequestParam MultipartFile anexo) throws IOException {
 
-		//String nome = s3.salvarTemporariamente(anexo);
-		//return new Anexo(nome, s3.configurarUrl(nome));
-		//TODO se ativar o s3, então descomente estas 2 linhas acima
-		return null;
+		String nome = s3.salvarTemporariamente(anexo);
+		return new Anexo(nome, s3.configurarUrl(nome));
+		//TODO para ativar o s3, descomente estas 2 linhas acima
+		//return null;
 	}
 	/*
 	 * @GetMapping("/relatorios/por-pessoa")

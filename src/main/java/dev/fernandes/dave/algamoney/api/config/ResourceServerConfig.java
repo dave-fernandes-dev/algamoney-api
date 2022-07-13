@@ -57,7 +57,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		String secretKeyString = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=";
-		var secretKey = new SecretKeySpec(secretKeyString.getBytes(), "HmacSHA512");
+		var secretKey = new SecretKeySpec(secretKeyString.getBytes(), "HmacSHA256");
 
 		return NimbusJwtDecoder.withSecretKey(secretKey).build();
 	}
@@ -73,11 +73,11 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-	@Override
-	public UserDetailsService userDetailsServiceBean() throws Exception {
-	   return super.userDetailsServiceBean();
-	}
+//	@Bean
+//	@Override
+//	public UserDetailsService userDetailsServiceBean() throws Exception {
+//	   return super.userDetailsServiceBean();
+//	}
 	
 //	@Bean
 //	public MethodSecurityExpressionHandler createExpressionHandler() {

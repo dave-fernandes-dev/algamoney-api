@@ -21,7 +21,7 @@ import dev.fernandes.dave.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Configuration
 //@Profile(value="prod & dev") //desta forma estranha ele fica desativado
-@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
+//@Profile(value="default") // TODO este profile só é ativado quando não houver outro, então na prática fica desativado, é o q quero agora
 public class S3Config {
 	
 	@Autowired

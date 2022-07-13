@@ -46,9 +46,9 @@ public class LancamentoService {
 	@Autowired
 	private Mailer mailer;
 	
-	//@Autowired
-	//private S3 s3;
-	// TODO se ativar o s3, então descomente estas 2 linhas acima
+	@Autowired
+	private S3 s3;
+	// TODO para ativar o s3, descomente estas 2 linhas acima
 	
 
 	public Lancamento findById(Integer id) {
@@ -76,14 +76,14 @@ public class LancamentoService {
 		objDTO.setId(0);
 		
 		if (StringUtils.hasText(objDTO.getAnexo())) {
-			//  TODO s3.salvar(objDTO.getAnexo());
+			s3.salvar(objDTO.getAnexo());
 		}
 		
 		if (pessoaService.isInativa(objDTO.getPessoa().getId())) {
 			throw new DataIntegrityViolationException("Não pode Cadastrar Lançamento com pessoa Inativa");
 		}
 		
-		// TODO objDTO.setUrlAnexo(s3.configurarUrl(objDTO.getAnexo()));
+		objDTO.setUrlAnexo(s3.configurarUrl(objDTO.getAnexo()));
 		
 		return lancamentoRepository.save(objDTO);
 	}
@@ -95,17 +95,17 @@ public class LancamentoService {
 		
 		//se o DTO não tem anexo & o lancamento antigo tem anexo, então é para apagar o antigo
 		if (!StringUtils.hasText(objDTO.getAnexo()) && StringUtils.hasText(oldObj.getAnexo()) )  {
-			// TODO s3.remover(oldObj.getAnexo());	
+			s3.remover(oldObj.getAnexo());	
 			
 		//se o anexo enviado é diferente do antigo, então substituir 
 		} else if (StringUtils.hasText(objDTO.getAnexo()) && !objDTO.getAnexo().equals(oldObj.getAnexo()) ) {
-			// TODO s3.substituir(oldObj.getAnexo(), objDTO.getAnexo());
+			s3.substituir(oldObj.getAnexo(), objDTO.getAnexo());
 		}
 				
 		// copia atributos de um para outro, ignorando "id"
 		BeanUtils.copyProperties(objDTO, oldObj, "id");		
 		
-		// TODO oldObj.setUrlAnexo(s3.configurarUrl(oldObj.getAnexo()));
+		oldObj.setUrlAnexo(s3.configurarUrl(oldObj.getAnexo()));
 		
 		return lancamentoRepository.save(oldObj);
 	}
