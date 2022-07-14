@@ -40,8 +40,8 @@ public class AlgamoneyApiProperty {
 	@Data
 	public static class S3 {
 		
-		private String accessKeyId;
-		private String secretKey;
+		private String accessKeyId=System.getenv("AWS_ACCESS_KEY");
+		private String secretKey=System.getenv("AWS_SECRET_KEY");
 		private String bucket = "vl-algamoney-arquivos";
 
 		
