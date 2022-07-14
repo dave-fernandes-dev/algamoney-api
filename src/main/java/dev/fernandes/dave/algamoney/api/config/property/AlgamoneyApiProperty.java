@@ -39,9 +39,13 @@ public class AlgamoneyApiProperty {
 	
 	@Data
 	public static class S3 {
+		// heroku não conseguia ler estas variaveis, por isso usei: System.getenv("")
+		private String accessKeyId=System.getenv("AWS_S3_ACCESS_KEY");
+		private String secretKey=System.getenv("AWS_S3_SECRET_KEY");
 		
-		private String accessKeyId=System.getenv("AWS_ACCESS_KEY");
-		private String secretKey=System.getenv("AWS_SECRET_KEY");
+		//private String accessKeyId;
+		//private String secretKey;
+
 		private String bucket = "vl-algamoney-arquivos";
 
 		
