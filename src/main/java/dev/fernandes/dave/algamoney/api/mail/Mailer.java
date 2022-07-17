@@ -52,7 +52,7 @@ public class Mailer {
 	}
 	
 	@SuppressWarnings("unused")
-	@EventListener //descomente para enviar email ao levantar a aplicação
+	//@EventListener //descomente para enviar email ao levantar a aplicação
 	private void teste(ApplicationReadyEvent event) {
 		this.enviarEmail("testes.algaworks@gmail.com", Arrays.asList("dave.analista@gmail.com", "consubr@yahoo.com.br"), "Testando", "Olá!<br/>Teste ok.");
 		System.out.println(">>>>>>>Terminado envio email");
