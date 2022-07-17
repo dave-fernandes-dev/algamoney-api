@@ -2,6 +2,8 @@ package dev.fernandes.dave.algamoney.api.repository.filters;
 
 import java.time.LocalDate;
 
+import org.springframework.util.StringUtils;
+
 //import org.springframework.format.annotation.DateTimeFormat;
 
 public class LancamentoFilter {
@@ -15,7 +17,7 @@ public class LancamentoFilter {
 	private LocalDate dataVencimentoAte;
 
 	public String getDescricao() {
-		return descricao;
+		return StringUtils.trimWhitespace(descricao);
 	}
 
 	public void setDescricao(String descricao) {

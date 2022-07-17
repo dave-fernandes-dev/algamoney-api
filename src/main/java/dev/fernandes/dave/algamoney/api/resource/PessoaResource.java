@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,7 +73,7 @@ public class PessoaResource {
 	//@PreAuthorize("hasRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
 	@PreAuthorize("hasAnyRole('PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
 	public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
-		return pessoaRepository.findByNomeContainingOrderByIdDesc(nome, pageable);
+		return pessoaRepository.findByNomeContainingOrderByIdDesc(StringUtils.trimWhitespace(nome), pageable);
 	}
 
 	@PostMapping  //COM event publisher
